@@ -3,6 +3,7 @@ package cf.playhi.freezeyou
 import android.app.ActivityManager
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -12,6 +13,9 @@ import androidx.preference.PreferenceFragmentCompat
 import cf.playhi.freezeyou.utils.AlertDialogUtils.buildAlertDialog
 import cf.playhi.freezeyou.utils.DevicePolicyManagerUtils.isDeviceOwner
 import cf.playhi.freezeyou.utils.ToastUtils.showToast
+import rikka.shizuku.Shizuku
+import java.util.concurrent.TimeUnit
+
 
 @Keep
 class SettingsDangerZoneFragment : PreferenceFragmentCompat() {
@@ -21,6 +25,7 @@ class SettingsDangerZoneFragment : PreferenceFragmentCompat() {
 
         if (isDeviceOwner(activity)) {
             preferenceScreen?.removePreference(findPreference("clearAllUserData"))
+            preferenceScreen?.removePreference(findPreference("makeDeviceOwner"))
         }
 
         findPreference<Preference?>("clearAllUserData")?.setOnPreferenceClickListener {
@@ -52,6 +57,51 @@ class SettingsDangerZoneFragment : PreferenceFragmentCompat() {
                 }
                 .setNegativeButton(R.string.no, null)
                 .show()
+            true
+        }
+
+        findPreference<Preference?>("makeDeviceOwner")?.setOnPreferenceClickListener {
+            if (Build.VERSION.SDK_INT >= 30) {
+                try {
+                    if (requireActivity().packageManager.getApplicationInfo("moe.shizuku.privileged.api", 0) == null)
+                        return@setOnPreferenceClickListener false
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    showToast(requireActivity(), "Shizuku not installed")
+                }
+            } else {
+                showToast(requireActivity(), R.string.sysVerLow)
+                return@setOnPreferenceClickListener true
+            }
+
+            if (Shizuku.checkSelfPermission() != PackageManager.PERMISSION_GRANTED) {
+                Shizuku.requestPermission(93270)
+            }
+
+            buildAlertDialog(
+                    requireActivity(),
+                    null,
+                    "Make FreezeYou the Device Owner?",
+                    null
+            )
+                    .setPositiveButton(R.string.yes) { _, _ ->
+                            try {
+                                val process = Shizuku.newProcess(arrayOf("/system/bin/dpm", "set-device-owner", "%s/.%s".format(requireActivity().packageName, DeviceAdminReceiver::class.simpleName)), null, null)
+                                process.waitForTimeout(15, TimeUnit.SECONDS)
+                                showToast(
+                                        requireActivity(),
+                                        if (process.exitValue() == 0)
+                                            R.string.success
+                                        else
+                                            R.string.failed
+                                )
+                            } catch (e: Exception) {
+                                e.printStackTrace()
+                                showToast(requireActivity(), R.string.failed)
+                            }
+                    }
+                    .setNegativeButton(R.string.no, null)
+                    .show()
             true
         }
 

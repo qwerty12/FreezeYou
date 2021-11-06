@@ -64,5 +64,9 @@ dependencies {
 
     implementation 'com.github.heruoxin.Delegated-Scopes-Manager:manager:master-SNAPSHOT'
 
+    def shizuku_version = '12.1.0'
+    implementation "dev.rikka.shizuku:api:$shizuku_version"
+    implementation "dev.rikka.shizuku:provider:$shizuku_version"
+
     testImplementation "junit:junit:4.13.2"
 }

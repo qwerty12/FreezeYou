@@ -1976,7 +1976,7 @@ public class Main extends FreezeYouBaseActivity {
                         if (DevicePolicyManagerUtils.isDeviceOwner(getApplicationContext())) {
                             startActivity(new Intent(this, MiniDPCActivity.class));
                         } else {
-                            ToastUtils.showShortToast(this, "Not device admin");
+                            ToastUtils.showShortToast(this, "Not device owner");
                         }
                         return true;
                     case R.id.menu_faq:
