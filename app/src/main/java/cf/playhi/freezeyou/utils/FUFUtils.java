@@ -1,5 +1,7 @@
 package cf.playhi.freezeyou.utils;
 
+import static android.app.Notification.FLAG_ONGOING_EVENT;
+
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.ComponentName;
@@ -359,7 +361,10 @@ public final class FUFUtils {
             if (statusBarNotifications != null) {
                 for (StatusBarNotification aStatusBarNotifications : statusBarNotifications) {
                     if (pkgName.equals(aStatusBarNotifications.getPackageName())) {
-                        return true;
+                        final int notificationFlags = aStatusBarNotifications.getNotification().flags;
+                        if ((notificationFlags & FLAG_ONGOING_EVENT) == FLAG_ONGOING_EVENT /* && (notificationFlags & FLAG_FOREGROUND_SERVICE) == FLAG_FOREGROUND_SERVICE */) {
+                            return true;
+                        }
                     }
                 }
             }
