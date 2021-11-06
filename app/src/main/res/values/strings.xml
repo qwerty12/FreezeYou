@@ -551,4 +551,38 @@
         <item>dark</item>
         <item>black</item>
     </string-array>
+
+    <string name="manage_apps">Manage applications</string>
+    <string name="reset">Reset</string>
+
+    <!-- Strings for app restrictions -->
+    <string name="managed_configurations">Apps\' managed configurations</string>
+    <string name="load_manifest_restrictions">Load manifest restrictions</string>
+    <string name="set_app_restrictions_success">Successfully set app restrictions for %s</string>
+    <string name="app_restrictions_info">%1$s - %2$s</string>
+    <string name="plus">+</string>
+
+    <!-- strings used in the alert dialog for editing application restrictions. -->
+    <string name="app_restrictions_key">Key:</string>
+    <string name="key_hint">Restriction key</string>
+    <string name="app_restrictions_value">Value:</string>
+    <string name="key_empty_error">Restriction key should not be empty</string>
+    <string name="value_not_valid">Restriction value is not valid</string>
+    <string name="restriction_save_label">Save</string>
+    <string name="restriction_cancel_label">Cancel</string>
+    <!-- Text shown in configure button when bundle/bundle array is chosen -->
+    <string name="configure">Configure</string>
+    
+    <string name="set_global_private_dns">Set Private DNS Mode</string>
+    <string name="current_private_dns_mode">Current Mode</string>
+    <string name="private_dns_mode_off">Off</string>
+    <string name="private_dns_mode_automatic">Automatic</string>
+    <string name="private_dns_mode_specific_host">Specified Host</string>
+    <string name="private_dns_mode_unknown">Unknown</string>
+    <string name="private_dns_mode_apply">Set</string>
+    <string name="setting_private_dns_succeess">Success setting Private DNS</string>
+    <string name="setting_private_dns_failure">FAILED: %s</string>
+    <string name="networking_proxy_host">Host</string>
+    <string name="networking_proxy_host_hint">Enter the host</string>
+
 </resources>

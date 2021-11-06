@@ -63,8 +63,10 @@ import java.util.Map;
 
 import cf.playhi.freezeyou.app.FreezeYouBaseActivity;
 import cf.playhi.freezeyou.utils.AccessibilityUtils;
+import cf.playhi.freezeyou.utils.DevicePolicyManagerUtils;
 import cf.playhi.freezeyou.utils.ServiceUtils;
 import cf.playhi.freezeyou.utils.TasksUtils;
+import cf.playhi.freezeyou.utils.ToastUtils;
 
 import static cf.playhi.freezeyou.LauncherShortcutUtils.checkSettingsAndRequestCreateShortcut;
 import static cf.playhi.freezeyou.LauncherShortcutUtils.createShortCut;
@@ -1969,6 +1971,13 @@ public class Main extends FreezeYouBaseActivity {
                         return true;
                     case R.id.menu_moreSettings:
                         startActivity(new Intent(this, SettingsActivity.class));
+                        return true;
+                    case R.id.menu_miniDPC:
+                        if (DevicePolicyManagerUtils.isDeviceOwner(getApplicationContext())) {
+                            startActivity(new Intent(this, MiniDPCActivity.class));
+                        } else {
+                            ToastUtils.showShortToast(this, "Not device admin");
+                        }
                         return true;
                     case R.id.menu_faq:
                         requestOpenWebSite(this,

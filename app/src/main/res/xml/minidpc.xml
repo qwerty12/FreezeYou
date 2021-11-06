@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <Preference
+        app:key="ManagedConfigurations"
+        app:title="@string/managed_configurations"
+        app:iconSpaceReserved="false"/>
+
+    <SwitchPreferenceCompat
+        app:defaultValue="false"
+        app:iconSpaceReserved="false"
+        app:key="DisableCamera"
+        app:title="Disable camera" />
+
+    <PreferenceCategory app:iconSpaceReserved="false" app:title="Lock screen">
+		<Preference
+			app:iconSpaceReserved="false"
+			app:title="escrcap / dscrcap"
+			app:summary="Use as tasks in Scheduled Tasks to enable/disable screen capture" />
+		<SwitchPreferenceCompat
+			app:defaultValue="false"
+			app:iconSpaceReserved="false"
+			app:key="KeyguardDisableTrustAgents"
+			app:title="Disable trust agents" />
+		<EditTextPreference
+			app:defaultValue=""
+			app:iconSpaceReserved="false"
+			app:key="LockScreenMessage"
+			app:title="Lock screen message" />
+    </PreferenceCategory>
+
+    <PreferenceCategory app:iconSpaceReserved="false" app:title="Time">
+        <SwitchPreferenceCompat
+			app:defaultValue="false"
+			app:iconSpaceReserved="false"
+			app:key="SetAutoTime"
+			app:title="Set auto (network) time" />
+        <SwitchPreferenceCompat
+			app:defaultValue="false"
+			app:iconSpaceReserved="false"
+			app:key="SetAutoTimezone"
+			app:title="Set auto (network) time zone" />
+        <SwitchPreferenceCompat
+			app:defaultValue="false"
+			app:iconSpaceReserved="false"
+			app:key="DisallowConfigDateTime"
+			app:title="Disallow configuring date and time" />
+    </PreferenceCategory>
+
+    <PreferenceCategory app:iconSpaceReserved="false" app:title="Networking">
+		<EditTextPreference
+			app:defaultValue=""
+			app:iconSpaceReserved="false"
+			app:key="SetGlobalHttpProxy"
+			app:title="Set global HTTP proxy" />
+		<!-- Preference
+			app:key="PrivateDnsMode"
+			app:title="Set Private DNS mode"
+			app:iconSpaceReserved="false"/ -->
+        <SwitchPreferenceCompat
+			app:defaultValue="false"
+			app:iconSpaceReserved="false"
+			app:key="DisallowConfigPrivateDns"
+			app:title="Disallow configuring Private DNS" />
+        <SwitchPreferenceCompat
+			app:defaultValue="false"
+			app:iconSpaceReserved="false"
+			app:key="DisallowConfigVpn"
+			app:title="Disallow configuring VPN" />
+        <SwitchPreferenceCompat
+			app:defaultValue="false"
+			app:iconSpaceReserved="false"
+			app:key="DisallowConfigWifi"
+			app:title="Disallow configuring Wi-Fi Settings" />
+		<Preference
+			app:iconSpaceReserved="false"
+			app:title="Install CA Certificate"
+			app:summary="Add functionality if Android neuters the native option" />
+    </PreferenceCategory>
+
+    <PreferenceCategory app:iconSpaceReserved="false" app:title="Misc">
+		<EditTextPreference
+			app:defaultValue=""
+			app:iconSpaceReserved="false"
+			app:key="SetProfileName"
+			app:title="Set profile name" />
+    </PreferenceCategory>
+
+</PreferenceScreen>

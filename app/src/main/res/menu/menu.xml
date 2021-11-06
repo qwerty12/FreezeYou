@@ -244,6 +244,10 @@
                 android:title="@string/moreSettings"
                 app:showAsAction="never" />
             <item
+                android:id="@+id/menu_miniDPC"
+                android:title="MiniDPC"
+                app:showAsAction="never" />
+            <item
                 android:id="@+id/menu_update"
                 android:title="@string/update"
                 app:showAsAction="never" />

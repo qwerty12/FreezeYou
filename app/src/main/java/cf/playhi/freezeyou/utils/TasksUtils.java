@@ -28,6 +28,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 
+import cf.playhi.freezeyou.DeviceAdminReceiver;
 import cf.playhi.freezeyou.FUFService;
 import cf.playhi.freezeyou.ForceStop;
 import cf.playhi.freezeyou.ForceStopService;
@@ -146,6 +147,12 @@ public final class TasksUtils {
             } else if (asTasks.toLowerCase().startsWith("okuf")) {
                 if (parseTaskAndReturnIfNeedExecuteImmediately(context, asTasks, taskTrigger))
                     startService(context, new Intent(context, OneKeyUFService.class));
+            } else if (asTasks.toLowerCase().startsWith("dscrcap") || asTasks.toLowerCase().startsWith("escrcap")) {
+                if (parseTaskAndReturnIfNeedExecuteImmediately(context, asTasks, taskTrigger)) {
+                    if (DevicePolicyManagerUtils.isDeviceOwner(context)) {
+                        DevicePolicyManagerUtils.getDevicePolicyManager(context).setScreenCaptureDisabled(DeviceAdminReceiver.getComponentName(context), asTasks.toLowerCase().startsWith("dscrcap"));
+                    }
+                }
             } else if (length >= 2) {
                 String string = asTasks.substring(0, 2).toLowerCase();
                 String[] tasks =
