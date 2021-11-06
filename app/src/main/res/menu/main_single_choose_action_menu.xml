@@ -55,6 +55,14 @@
             <item
                 android:id="@+id/main_sca_menu_uninstall"
                 android:title="@string/uninstall" />
+            <item
+                android:id="@+id/main_sca_menu_un_suspend"
+                android:visible="false"
+                android:title="(Un)suspend app" />
+            <item
+                android:id="@+id/main_sca_menu_enable_sys_app"
+                android:visible="false"
+                android:title="Enable system app" />
         </menu>
     </item>
 </menu>

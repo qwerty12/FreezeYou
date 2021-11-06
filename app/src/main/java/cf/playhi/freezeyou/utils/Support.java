@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -30,6 +31,7 @@ import net.grandcentrix.tray.AppPreferences;
 import java.util.HashMap;
 import java.util.Locale;
 
+import cf.playhi.freezeyou.DeviceAdminReceiver;
 import cf.playhi.freezeyou.ForceStop;
 import cf.playhi.freezeyou.Freeze;
 import cf.playhi.freezeyou.InstallPackagesActivity;
@@ -184,6 +186,41 @@ public final class Support {
 
         if (!canRemoveItem) {
             popup.getMenu().removeItem(R.id.main_sca_menu_removeFromTheList);
+        }
+
+        final boolean isDeviceOwner = DevicePolicyManagerUtils.isDeviceOwner(context);
+        if (isDeviceOwner) {
+            try {
+                final boolean suspended = DevicePolicyManagerUtils.getDevicePolicyManager(context).isPackageSuspended(DeviceAdminReceiver.getComponentName(context), pkgName);
+                final MenuItem item = popup.getMenu().findItem(R.id.main_sca_menu_un_suspend);
+                item.setTitle(suspended ? "Unsuspend app" : "Suspend app");
+                item.setVisible(true);
+            } catch (PackageManager.NameNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+
+        if (isDeviceOwner) {
+            try {
+                final PackageManager packageManager = context.getPackageManager();
+                final PackageInfo pkgInfo = packageManager.getPackageInfo(pkgName, PackageManager.MATCH_UNINSTALLED_PACKAGES);
+                boolean show = (pkgInfo.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) == ApplicationInfo.FLAG_SYSTEM || (pkgInfo.applicationInfo.flags & ApplicationInfo.FLAG_UPDATED_SYSTEM_APP) == ApplicationInfo.FLAG_UPDATED_SYSTEM_APP;
+
+                /* if (show) {
+                    List<ApplicationInfo> enabledApps = packageManager.getInstalledApplications(0);
+                    for (ApplicationInfo applicationInfo : enabledApps) {
+                        if (applicationInfo.packageName.equals(pkgName)) {
+                            show = false;
+                            break;
+                        }
+                    }
+                } */
+
+                if (show)
+                    popup.getMenu().findItem(R.id.main_sca_menu_enable_sys_app).setVisible(true);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -344,6 +381,21 @@ public final class Support {
                                                     Uri.parse("package:" + pkgName)
                                             ).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                                     );
+                                }
+                                break;
+                            case R.id.main_sca_menu_un_suspend:
+                                try {
+                                    final boolean suspended = DevicePolicyManagerUtils.getDevicePolicyManager(context).isPackageSuspended(DeviceAdminReceiver.getComponentName(context), pkgName);
+                                    DevicePolicyManagerUtils.getDevicePolicyManager(context).setPackagesSuspended(DeviceAdminReceiver.getComponentName(context), new String[]{pkgName}, !suspended);
+                                } catch (Exception e) {
+                                    ToastUtils.showToast(context, e.getMessage());
+                                }
+                                break;
+                            case R.id.main_sca_menu_enable_sys_app:
+                                try {
+                                    DevicePolicyManagerUtils.getDevicePolicyManager(context).enableSystemApp(DeviceAdminReceiver.getComponentName(context), pkgName);
+                                } catch (Exception e) {
+                                    ToastUtils.showToast(context, e.getMessage());
                                 }
                                 break;
                             default:
