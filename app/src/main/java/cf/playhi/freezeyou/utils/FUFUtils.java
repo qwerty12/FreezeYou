@@ -330,7 +330,9 @@ public final class FUFUtils {
                                     (apiMode != API_FREEZEYOU_LEGACY_AUTO && apiMode != API_FREEZEYOU_MROOT_DPM) ||
                                     !freeze || !checkMRootFrozen(context, aPkgName)) {
                                 if (!processAction(context, aPkgName, apiMode, !freeze, false)) {
-                                    showToast(context, aPkgName + " " + context.getString(R.string.failed) + " " + context.getString(R.string.mayUnrootedOrOtherEx));
+                                    if (!new AppPreferences(context)
+                                            .getBoolean("lesserToast", false))
+                                        showToast(context, aPkgName + " " + context.getString(R.string.failed) + " " + context.getString(R.string.mayUnrootedOrOtherEx));
                                 }
                             }
                         } catch (Exception e) {
@@ -381,6 +383,10 @@ public final class FUFUtils {
     }
 
     public static void checkAndShowAppStillNotifyingToast(Context context, String pkgName) {
+        if (new AppPreferences(context)
+                .getBoolean("lesserToast", false))
+            return;
+
         String label =
                 ApplicationLabelUtils.getApplicationLabel(
                         context,
@@ -398,6 +404,10 @@ public final class FUFUtils {
     }
 
     public static void checkAndShowAppIsForegroundApplicationToast(Context context, String pkgName) {
+        if (new AppPreferences(context)
+                .getBoolean("lesserToast", false))
+            return;
+
         String label =
                 ApplicationLabelUtils.getApplicationLabel(
                         context,
@@ -566,6 +576,10 @@ public final class FUFUtils {
     }
 
     private static void showPreProcessFUFResultAndShowToastAndReturnIfResultBelongsSuccess(Context context, String message) {
+        if (new AppPreferences(context)
+                .getBoolean("lesserToast", false))
+            return;
+
         showShortToast(
                 context,
                 String.format(context.getString(R.string.executionResult_colon_message), message)
