@@ -9,6 +9,7 @@ import static android.os.UserManager.DISALLOW_CONFIG_WIFI;
 import android.app.admin.DevicePolicyManager;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ProxyInfo;
 import android.os.Bundle;
@@ -22,6 +23,8 @@ import androidx.preference.EditTextPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceDataStore;
 import androidx.preference.PreferenceFragmentCompat;
+
+import com.catchingnow.delegatedscopesmanager.centerApp.CenterApp;
 
 import java.util.Set;
 
@@ -252,6 +255,9 @@ public class MiniDPCFragment extends PreferenceFragmentCompat implements Prefere
         pref = findPreference("PrivateDnsMode");
         if (pref != null)
             pref.setOnPreferenceClickListener(this);
+        pref = findPreference("ManageDSM");
+        if (pref != null)
+            pref.setOnPreferenceClickListener(this);
 
         final EditTextPreference textPref = findPreference("SetGlobalHttpProxy");
         if (textPref != null)
@@ -273,6 +279,9 @@ public class MiniDPCFragment extends PreferenceFragmentCompat implements Prefere
                 return true;
             case "PrivateDnsMode":
                 showFragment(new PrivateDnsModeFragment());
+                return true;
+            case "ManageDSM":
+                startActivity(new Intent(CenterApp.ACTION_APP_LIST).setPackage(requireContext().getPackageName()));
                 return true;
         }
         return false;

@@ -62,5 +62,7 @@ dependencies {
 
 //    implementation 'com.google.zxing:core:3.3.3' 先把文本方式稳定下来，再做 QRCode
 
+    implementation 'com.github.heruoxin.Delegated-Scopes-Manager:manager:master-SNAPSHOT'
+
     testImplementation "junit:junit:4.13.2"
 }

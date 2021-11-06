@@ -7,6 +7,11 @@
         app:title="@string/managed_configurations"
         app:iconSpaceReserved="false"/>
 
+    <Preference
+        app:key="ManageDSM"
+        app:title="Manage Delegated Scopes Manager apps"
+        app:iconSpaceReserved="false"/>
+
     <SwitchPreferenceCompat
         app:defaultValue="false"
         app:iconSpaceReserved="false"
