@@ -90,6 +90,11 @@
 			app:iconSpaceReserved="false"
 			app:key="SetProfileName"
 			app:title="Set profile name" />
+        <SwitchPreferenceCompat
+			app:defaultValue="false"
+			app:iconSpaceReserved="false"
+			app:key="EnableBackupService"
+			app:title="Enable backup service" />
     </PreferenceCategory>
 
 </PreferenceScreen>

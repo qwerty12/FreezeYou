@@ -161,6 +161,9 @@ class SharedPreferenceDataStore extends PreferenceDataStore {
             case "DisallowConfigWifi":
                 setUserRestriction(DISALLOW_CONFIG_WIFI, value);
                 break;
+            case "EnableBackupService":
+                getDevicePolicyManager().setBackupServiceEnabled(getAdminComponentName(), value);
+                break;
             default:
                 mSharedPreferences.edit().putBoolean(key, value).apply();
         }
@@ -230,6 +233,8 @@ class SharedPreferenceDataStore extends PreferenceDataStore {
                 return getUserRestriction(DISALLOW_CONFIG_VPN, defValue);
             case "DisallowConfigWifi":
                 return getUserRestriction(DISALLOW_CONFIG_WIFI, defValue);
+            case "EnableBackupService":
+                return getDevicePolicyManager().isBackupServiceEnabled(getAdminComponentName());
             default:
                 return mSharedPreferences.getBoolean(key, defValue);
         }
