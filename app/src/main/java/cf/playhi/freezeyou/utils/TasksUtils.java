@@ -538,6 +538,11 @@ public final class TasksUtils {
                                     new Intent(context, TriggerTasksService.class)
                                             .putExtra("OnScreenOff", true));
                             break;
+                        case "onScreenUnlock":
+                            startService(context,
+                                    new Intent(context, TriggerTasksService.class)
+                                            .putExtra("OnScreenUnlock", true));
+                            break;
                         default:
                             break;
                     }

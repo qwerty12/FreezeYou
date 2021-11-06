@@ -363,6 +363,11 @@ public class ScheduledTasksAddActivity extends FreezeYouBaseActivity {
                             new Intent(this, TriggerTasksService.class)
                                     .putExtra("OnScreenOff", true));
                     break;
+                case "onScreenUnlock":
+                    ServiceUtils.startService(this,
+                            new Intent(this, TriggerTasksService.class)
+                                    .putExtra("OnScreenUnlock", true));
+                    break;
                 case "onApplicationsForeground":
                 case "onLeaveApplications":
                     AccessibilityUtils.checkAndRequestIfAccessibilitySettingsOff(this);

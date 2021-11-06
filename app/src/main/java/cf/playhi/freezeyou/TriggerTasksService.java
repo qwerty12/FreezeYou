@@ -38,6 +38,11 @@ public class TriggerTasksService extends FreezeYouBaseService {
                 triggerScreenLockListener = new TriggerScreenLockListener(getApplicationContext());
                 triggerScreenLockListener.registerListener();
             }
+
+            if (triggerScreenLockListener == null && intent.getBooleanExtra("OnScreenUnlock", false)) {
+                triggerScreenLockListener = new TriggerScreenLockListener(getApplicationContext());
+                triggerScreenLockListener.registerListener();
+            }
         }
 
         return super.onStartCommand(intent, flags, startId);
@@ -105,10 +110,13 @@ class TriggerScreenLockListener {
             if (action != null && cursor.moveToFirst()) {
                 switch (action) {
                     case Intent.ACTION_SCREEN_OFF:
-                        onActionScreenOnOff(context, cursor, false);
+                        onActionScreenOnOff(context, cursor, "onScreenOff");
                         break;
                     case Intent.ACTION_SCREEN_ON:
-                        onActionScreenOnOff(context, cursor, true);
+                        onActionScreenOnOff(context, cursor, "onScreenOn");
+                        break;
+                    case Intent.ACTION_USER_PRESENT:
+                        onActionScreenOnOff(context, cursor, "onScreenUnlock");
                         break;
                     default:
                         break;
@@ -118,15 +126,15 @@ class TriggerScreenLockListener {
             db.close();
         }
 
-        private static void onActionScreenOnOff(Context context, Cursor cursor, boolean screenOn) {
-            cancelAllUnexecutedDelayTasks(context, screenOn ? "onScreenOff" : "onScreenOn");
+        private static void onActionScreenOnOff(Context context, Cursor cursor, final String taskTrigger) {
+            cancelAllUnexecutedDelayTasks(context, taskTrigger);
             for (int i = 0; i < cursor.getCount(); i++) {
                 String tg = cursor.getString(cursor.getColumnIndex("tg"));
                 int enabled = cursor.getInt(cursor.getColumnIndex("enabled"));
-                if (enabled == 1 && (screenOn ? "onScreenOn" : "onScreenOff").equals(tg)) {
+                if (enabled == 1 && taskTrigger.equals(tg)) {
                     String task = cursor.getString(cursor.getColumnIndex("task"));
                     if (task != null && !"".equals(task)) {
-                        TasksUtils.runTask(task, context, screenOn ? "onScreenOn" : "onScreenOff");
+                        TasksUtils.runTask(task, context, taskTrigger);
                     }
                 }
                 cursor.moveToNext();
@@ -138,6 +146,7 @@ class TriggerScreenLockListener {
         IntentFilter filter = new IntentFilter();
         filter.addAction(Intent.ACTION_SCREEN_OFF);
         filter.addAction(Intent.ACTION_SCREEN_ON);
+        filter.addAction(Intent.ACTION_USER_PRESENT);
         mContext.registerReceiver(mScreenLockReceiver, filter);
     }
 

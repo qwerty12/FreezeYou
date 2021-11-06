@@ -466,6 +466,7 @@
     <string-array name="triggers">
         <item>On Screen On</item>
         <item>On Screen Off</item>
+        <item>On Screen Unlock</item>
         <item>When Open Applications</item>
         <item>When Leave Applications</item>
         <item>When Unfreeze Applications</item>
@@ -474,6 +475,7 @@
     <string-array name="triggersValues" translatable="false">
         <item>onScreenOn</item>
         <item>onScreenOff</item>
+        <item>onScreenUnlock</item>
         <item>onApplicationsForeground</item>
         <item>onLeaveApplications</item>
         <item>onUFApplications</item>
