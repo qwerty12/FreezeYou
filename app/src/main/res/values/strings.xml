@@ -585,4 +585,9 @@
     <string name="networking_proxy_host">Host</string>
     <string name="networking_proxy_host_hint">Enter the host</string>
 
+    <plurals name="password_failed_attempts_title">
+        <item quantity="one">Password entered incorrectly %d time</item>
+        <item quantity="other">Password entered incorrectly %d times</item>
+    </plurals>
+
 </resources>

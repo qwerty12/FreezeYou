@@ -2,7 +2,7 @@
 <device-admin>
     <uses-policies>
         <!--<limit-password />-->
-        <!--<watch-login />-->
+        <watch-login />
         <!--<reset-password />-->
         <force-lock />
         <!--<wipe-data />-->
