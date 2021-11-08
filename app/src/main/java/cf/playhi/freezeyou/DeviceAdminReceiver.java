@@ -9,7 +9,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Process;
 import android.os.UserHandle;
-import android.util.Log;
 
 import static cf.playhi.freezeyou.utils.ToastUtils.showToast;
 
@@ -17,14 +16,6 @@ import androidx.core.app.NotificationCompat;
 
 import com.catchingnow.delegatedscopesmanager.centerApp.CenterApp;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -34,12 +25,7 @@ import java.util.Date;
 import cf.playhi.freezeyou.utils.DevicePolicyManagerUtils;
 
 public class DeviceAdminReceiver extends android.app.admin.DeviceAdminReceiver {
-    private static final String TAG = "DeviceAdminReceiver";
-
-    private static final String LOGS_DIR = "logs";
-
-    private static final String FAILED_PASSWORD_LOG_FILE =
-            "failed_pw_attempts_timestamps.log";
+    private static ArrayList<Date> previousFailedAttempts = null;
 
     private static final int PASSWORD_FAILED_NOTIFICATION_ID = 102;
     private static final String PASSWORD_FAILED_NOTIFICATION_CHANNEL = "DeviceAdminWrongPasswordNotifications";
@@ -80,15 +66,15 @@ public class DeviceAdminReceiver extends android.app.admin.DeviceAdminReceiver {
         String title = context.getResources().getQuantityString(
                 R.plurals.password_failed_attempts_title, attempts, attempts);
 
-        ArrayList<Date> previousFailedAttempts = getFailedPasswordAttempts(context);
+        if (previousFailedAttempts == null) {
+            previousFailedAttempts = new ArrayList<Date>();
+        } else {
+            if (previousFailedAttempts.size() > 30)
+                previousFailedAttempts.clear();
+        }
         Date date = new Date();
         previousFailedAttempts.add(date);
         Collections.sort(previousFailedAttempts, Collections.<Date>reverseOrder());
-        try {
-            saveFailedPasswordAttempts(context, previousFailedAttempts);
-        } catch (IOException e) {
-            Log.e(TAG, "Unable to save failed password attempts", e);
-        }
 
         NotificationManager notificationManager =
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
@@ -103,8 +89,8 @@ public class DeviceAdminReceiver extends android.app.admin.DeviceAdminReceiver {
         warn.setSmallIcon(R.drawable.ic_notification)
                 .setTicker(title)
                 .setContentTitle(title)
-                .setContentIntent(PendingIntent.getActivity(context, /* requestCode */ -1,
-                        new Intent(DevicePolicyManager.ACTION_SET_NEW_PASSWORD), /* flags */ 0));
+                .setContentIntent(PendingIntent.getActivity(context, -1,
+                        new Intent(DevicePolicyManager.ACTION_SET_NEW_PASSWORD), PendingIntent.FLAG_IMMUTABLE));
 
         NotificationCompat.InboxStyle inboxStyle = new NotificationCompat.InboxStyle();
         inboxStyle.setBigContentTitle(title);
@@ -120,67 +106,9 @@ public class DeviceAdminReceiver extends android.app.admin.DeviceAdminReceiver {
 
     @Override
     public void onPasswordSucceeded(Context context, Intent intent, UserHandle user) {
-        if (Process.myUserHandle().equals(user)) {
-            logFile(context).delete();
+        if (previousFailedAttempts != null && Process.myUserHandle().equals(user)) {
+            previousFailedAttempts.clear();
         }
-    }
-
-    private static File logFile(Context context) {
-        File parent = context.getDir(LOGS_DIR, Context.MODE_PRIVATE);
-        return new File(parent, FAILED_PASSWORD_LOG_FILE);
-    }
-
-    private static ArrayList<Date> getFailedPasswordAttempts(Context context) {
-        File logFile = logFile(context);
-        ArrayList<Date> result = new ArrayList<Date>();
-
-        if(!logFile.exists()) {
-            return result;
-        }
-
-        FileInputStream fis = null;
-        try {
-            fis = new FileInputStream(logFile);
-            BufferedReader br = new BufferedReader(new InputStreamReader(fis));
-
-            String line = null;
-            while ((line = br.readLine()) != null && line.length() > 0) {
-                result.add(new Date(Long.parseLong(line)));
-            }
-
-            br.close();
-        } catch (IOException e) {
-            Log.e(TAG, "Unable to read failed password attempts", e);
-        } finally {
-            if(fis != null) {
-                try {
-                    fis.close();
-                } catch (IOException e) {
-                    Log.e(TAG, "Unable to close failed password attempts log file", e);
-                }
-            }
-        }
-
-        return result;
-    }
-
-    private static void saveFailedPasswordAttempts(Context context, ArrayList<Date> attempts)
-            throws IOException {
-        File logFile = logFile(context);
-
-        if(!logFile.exists()) {
-            logFile.createNewFile();
-        }
-
-        FileOutputStream fos = new FileOutputStream(logFile);
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(fos));
-
-        for(Date date : attempts) {
-            bw.write(Long.toString(date.getTime()));
-            bw.newLine();
-        }
-
-        bw.close();
     }
 
 }
