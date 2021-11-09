@@ -27,6 +27,7 @@ public class UninstallReceiver extends BroadcastReceiver {
                     removeFromOneKeyList(context, context.getString(R.string.sAutoFreezeApplicationList), pkgName);
                     removeFromOneKeyList(context, context.getString(R.string.sOneKeyUFApplicationList), pkgName);
                     removeFromOneKeyList(context, context.getString(R.string.sFreezeOnceQuit), pkgName);
+                    removeFromOneKeyList(context, context.getString(R.string.sOngoingNotificationCheckList), pkgName);
                     //清理被卸载应用程序的图标数据
                     File file = new File(context.getFilesDir() + "/icon/" + pkgName + ".png");
                     if (file.exists() && file.isFile()) {

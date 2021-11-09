@@ -178,6 +178,11 @@ public final class Support {
             popup.getMenu().findItem(R.id.main_sca_menu_addToOneKeyUFList).setTitle(R.string.removeFromOneKeyUFList);
         }
 
+        final String ONPkgNames = sharedPreferences.getString(context.getString(R.string.sOngoingNotificationCheckList), "");
+        if (existsInOneKeyList(ONPkgNames, pkgName)) {
+            popup.getMenu().findItem(R.id.main_sca_menu_addToOngoingNotificationCheck).setTitle(R.string.removeFromOngoingNotificationCheck);
+        }
+
         if (FUFUtils.realGetFrozenStatus(context, pkgName, null)) {
             popup.getMenu().findItem(R.id.main_sca_menu_disableAEnable).setTitle(R.string.UfSlashRun);
         } else {
@@ -317,6 +322,9 @@ public final class Support {
                                 break;
                             case R.id.main_sca_menu_addToOneKeyUFList:
                                 Support.checkAddOrRemove(context, UFPkgNames, pkgName, context.getString(R.string.sOneKeyUFApplicationList));
+                                break;
+                            case R.id.main_sca_menu_addToOngoingNotificationCheck:
+                                Support.checkAddOrRemove(context, ONPkgNames, pkgName, context.getString(R.string.sOngoingNotificationCheckList));
                                 break;
                             case R.id.main_sca_menu_appDetail:
                                 Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);

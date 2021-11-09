@@ -357,16 +357,19 @@ public final class FUFUtils {
     }
 
     @TargetApi(21)
-    private static boolean isAppStillNotifying(String pkgName) {
+    private static boolean isAppStillNotifying(Context context, String pkgName) {
         if (pkgName != null) {
             StatusBarNotification[] statusBarNotifications = MyNotificationListenerService.getStatusBarNotifications();
             if (statusBarNotifications != null) {
+                context = context.getApplicationContext();
                 for (StatusBarNotification aStatusBarNotifications : statusBarNotifications) {
                     if (pkgName.equals(aStatusBarNotifications.getPackageName())) {
-                        final int notificationFlags = aStatusBarNotifications.getNotification().flags;
-                        if ((notificationFlags & FLAG_ONGOING_EVENT) == FLAG_ONGOING_EVENT /* && (notificationFlags & FLAG_FOREGROUND_SERVICE) == FLAG_FOREGROUND_SERVICE */) {
-                            return true;
+                        if (OneKeyListUtils.existsInOneKeyList(context, context.getString(R.string.sOngoingNotificationCheckList), pkgName)) {
+                            final int notificationFlags = aStatusBarNotifications.getNotification().flags;
+                            return (notificationFlags & FLAG_ONGOING_EVENT) == FLAG_ONGOING_EVENT; /* && (notificationFlags & FLAG_FOREGROUND_SERVICE) == FLAG_FOREGROUND_SERVICE */
                         }
+
+                        return true;
                     }
                 }
             }
@@ -376,7 +379,7 @@ public final class FUFUtils {
 
     public static boolean isAvoidFreezeNotifyingApplicationsEnabledAndAppStillNotifying(Context context, String pkgName) {
         if (Build.VERSION.SDK_INT >= 21) {
-            return new AppPreferences(context).getBoolean("avoidFreezeNotifyingApplications", false) && isAppStillNotifying(pkgName);
+            return new AppPreferences(context).getBoolean("avoidFreezeNotifyingApplications", false) && isAppStillNotifying(context, pkgName);
         } else {
             return false;
         }

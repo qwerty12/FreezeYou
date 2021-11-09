@@ -37,6 +37,9 @@
             <item
                 android:id="@+id/main_sca_menu_addToFreezeOnceQuit"
                 android:title="@string/addToFreezeOnceQuit" />
+            <item
+                android:id="@+id/main_sca_menu_addToOngoingNotificationCheck"
+                android:title="@string/addToOngoingNotificationCheck" />
         </menu>
     </item>
 
