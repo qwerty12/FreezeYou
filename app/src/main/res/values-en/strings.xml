@@ -422,6 +422,7 @@
     <string-array name="triggers">
         <item>On Screen On</item>
         <item>On Screen Off</item>
+        <item>On Screen Off (if unlocked)</item>
         <item>On Screen Unlock</item>
         <item>When Open Applications</item>
         <item>When Leave Applications</item>

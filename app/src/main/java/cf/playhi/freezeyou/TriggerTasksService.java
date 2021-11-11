@@ -92,10 +92,12 @@ class TriggerScreenLockListener {
 
     private final Context mContext;
     private final ScreenLockBroadcastReceiver mScreenLockReceiver;
+    private static boolean mScreenLocked;
 
     TriggerScreenLockListener(Context context) {
         mContext = context;
         mScreenLockReceiver = new ScreenLockBroadcastReceiver();
+        mScreenLocked = false;
     }
 
     private static class ScreenLockBroadcastReceiver extends BroadcastReceiver {
@@ -110,12 +112,17 @@ class TriggerScreenLockListener {
             if (action != null && cursor.moveToFirst()) {
                 switch (action) {
                     case Intent.ACTION_SCREEN_OFF:
+                        if (!mScreenLocked) {
+                            mScreenLocked = true;
+                            onActionScreenOnOff(context, cursor, "onScreenOffIfUnlocked");
+                        }
                         onActionScreenOnOff(context, cursor, "onScreenOff");
                         break;
                     case Intent.ACTION_SCREEN_ON:
                         onActionScreenOnOff(context, cursor, "onScreenOn");
                         break;
                     case Intent.ACTION_USER_PRESENT:
+                        mScreenLocked = false;
                         onActionScreenOnOff(context, cursor, "onScreenUnlock");
                         break;
                     default:
@@ -128,17 +135,22 @@ class TriggerScreenLockListener {
 
         private static void onActionScreenOnOff(Context context, Cursor cursor, final String taskTrigger) {
             cancelAllUnexecutedDelayTasks(context, taskTrigger);
-            for (int i = 0; i < cursor.getCount(); i++) {
-                String tg = cursor.getString(cursor.getColumnIndex("tg"));
-                int enabled = cursor.getInt(cursor.getColumnIndex("enabled"));
-                if (enabled == 1 && taskTrigger.equals(tg)) {
-                    String task = cursor.getString(cursor.getColumnIndex("task"));
-                    if (task != null && !"".equals(task)) {
-                        TasksUtils.runTask(task, context, taskTrigger);
+
+            if (!cursor.moveToFirst())
+                return;
+
+            do {
+                final int enabled = cursor.getInt(cursor.getColumnIndex("enabled"));
+                if (enabled == 1) {
+                    final String tg = cursor.getString(cursor.getColumnIndex("tg"));
+                    if (taskTrigger.equals(tg)) {
+                        final String task = cursor.getString(cursor.getColumnIndex("task"));
+                        if (task != null && !"".equals(task)) {
+                            TasksUtils.runTask(task, context, taskTrigger);
+                        }
                     }
                 }
-                cursor.moveToNext();
-            }
+            } while (cursor.moveToNext());
         }
     }
 
