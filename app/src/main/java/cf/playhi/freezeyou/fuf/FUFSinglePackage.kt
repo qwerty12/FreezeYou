@@ -10,8 +10,8 @@ import cf.playhi.freezeyou.utils.DevicePolicyManagerUtils.isDeviceOwner
 import cf.playhi.freezeyou.utils.FUFUtils.checkMRootFrozen
 import cf.playhi.freezeyou.utils.FUFUtils.isSystemApp
 import cf.playhi.freezeyou.utils.ProcessUtils.fAURoot
+import cf.playhi.freezeyou.utils.ShizukuProvider2
 import cf.playhi.freezeyou.utils.ShizukuUtils
-import rikka.shizuku.ShizukuProvider
 
 open class FUFSinglePackage(
     private val mContext: Context,
@@ -186,7 +186,7 @@ open class FUFSinglePackage(
                     "shell:" + Process.myUid() /*"com.android.shell"*/
                 )
             } catch (e: IllegalStateException) {
-                ShizukuProvider.requestBinderForNonProviderProcess(mContext)
+                ShizukuProvider2.requestBinderForNonProviderProcess(mContext)
                 returnValue = ERROR_DPM_EXECUTE_FAILED_FROM_SYSTEM
             }
         }

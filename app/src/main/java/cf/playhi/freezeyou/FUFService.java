@@ -12,6 +12,7 @@ import net.grandcentrix.tray.AppPreferences;
 
 import cf.playhi.freezeyou.app.FreezeYouBaseService;
 import cf.playhi.freezeyou.utils.FUFUtils;
+import cf.playhi.freezeyou.utils.ShizukuProvider2;
 import rikka.shizuku.ShizukuProvider;
 
 import static cf.playhi.freezeyou.fuf.FUFSinglePackage.API_FREEZEYOU_LEGACY_AUTO;
@@ -103,7 +104,7 @@ public class FUFService extends FreezeYouBaseService {
     public void onCreate() {
         super.onCreate();
         if (new AppPreferences(this).getInt("selectFUFMode", 0) == API_FREEZEYOU_SHIZUKU_ENABLE_DISABLE_USER) {
-            ShizukuProvider.requestBinderForNonProviderProcess(this);
+            ShizukuProvider2.requestBinderForNonProviderProcess(this);
         }
         if (Build.VERSION.SDK_INT >= 26) {
             Notification.Builder mBuilder = new Notification.Builder(this);
