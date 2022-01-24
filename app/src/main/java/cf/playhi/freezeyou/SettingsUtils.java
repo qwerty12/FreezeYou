@@ -184,6 +184,8 @@ final class SettingsUtils {
                                 ShizukuUtils.requestPermission();
                             } catch (IllegalStateException e) {
                                 showToast(context, "Shizuku not running");
+                            } catch (SecurityException e) {
+                                showToast(context, e.getMessage());
                             }
                         }
                         break;

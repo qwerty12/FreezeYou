@@ -23,8 +23,11 @@ public final class ShizukuUtils {
         }
     }
 
-    public static void requestPermission() throws IllegalStateException {
+    public static void requestPermission() throws IllegalStateException, SecurityException {
         if (Shizuku.checkSelfPermission() != PackageManager.PERMISSION_GRANTED) {
+            if (Shizuku.shouldShowRequestPermissionRationale()) {
+                throw new SecurityException("Shizuku: User chose \"Deny and don't ask again\"");
+            }
             Shizuku.requestPermission(93270);
         }
     }

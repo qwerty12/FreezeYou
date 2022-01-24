@@ -78,6 +78,9 @@ class SettingsDangerZoneFragment : PreferenceFragmentCompat() {
             } catch (e: IllegalStateException){
                 showToast(requireActivity(), "Shizuku not running")
                 return@setOnPreferenceClickListener false
+            } catch (e: SecurityException) {
+                showToast(requireActivity(), e.message)
+                return@setOnPreferenceClickListener false
             }
 
             buildAlertDialog(
