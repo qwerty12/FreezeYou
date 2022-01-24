@@ -12,6 +12,7 @@ import net.grandcentrix.tray.AppPreferences;
 
 import cf.playhi.freezeyou.app.FreezeYouBaseService;
 import cf.playhi.freezeyou.utils.FUFUtils;
+import rikka.shizuku.ShizukuProvider;
 
 import static cf.playhi.freezeyou.fuf.FUFSinglePackage.API_FREEZEYOU_LEGACY_AUTO;
 import static cf.playhi.freezeyou.fuf.FUFSinglePackage.API_FREEZEYOU_MROOT_DPM;
@@ -24,6 +25,10 @@ import static cf.playhi.freezeyou.utils.FUFUtils.processMRootAction;
 import static cf.playhi.freezeyou.utils.FUFUtils.processRootAction;
 
 public class FUFService extends FreezeYouBaseService {
+
+    static {
+        ShizukuProvider.enableMultiProcessSupport(false);
+    }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -96,6 +101,7 @@ public class FUFService extends FreezeYouBaseService {
     @Override
     public void onCreate() {
         super.onCreate();
+        ShizukuProvider.requestBinderForNonProviderProcess(this);
         if (Build.VERSION.SDK_INT >= 26) {
             Notification.Builder mBuilder = new Notification.Builder(this);
             mBuilder.setSmallIcon(R.drawable.ic_notification);

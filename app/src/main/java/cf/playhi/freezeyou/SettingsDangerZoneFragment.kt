@@ -12,6 +12,7 @@ import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import cf.playhi.freezeyou.utils.AlertDialogUtils.buildAlertDialog
 import cf.playhi.freezeyou.utils.DevicePolicyManagerUtils.isDeviceOwner
+import cf.playhi.freezeyou.utils.ShizukuUtils
 import cf.playhi.freezeyou.utils.ToastUtils.showToast
 import rikka.shizuku.Shizuku
 import java.util.concurrent.TimeUnit
@@ -61,22 +62,17 @@ class SettingsDangerZoneFragment : PreferenceFragmentCompat() {
         }
 
         findPreference<Preference?>("makeDeviceOwner")?.setOnPreferenceClickListener {
-            if (Build.VERSION.SDK_INT >= 30) {
-                try {
-                    if (requireActivity().packageManager.getApplicationInfo("moe.shizuku.privileged.api", 0) == null)
-                        return@setOnPreferenceClickListener false
-                } catch (e: Exception) {
-                    e.printStackTrace()
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                if (!ShizukuUtils.isShizukuInstalled(requireContext())) {
                     showToast(requireActivity(), "Shizuku not installed")
+                    return@setOnPreferenceClickListener false
                 }
             } else {
                 showToast(requireActivity(), R.string.sysVerLow)
-                return@setOnPreferenceClickListener true
+                return@setOnPreferenceClickListener false
             }
 
-            if (Shizuku.checkSelfPermission() != PackageManager.PERMISSION_GRANTED) {
-                Shizuku.requestPermission(93270)
-            }
+            ShizukuUtils.requestPermission();
 
             buildAlertDialog(
                     requireActivity(),

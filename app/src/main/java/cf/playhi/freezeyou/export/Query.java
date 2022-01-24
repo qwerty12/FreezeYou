@@ -18,6 +18,7 @@ import static cf.playhi.freezeyou.export.FUFMode.MODE_DPM;
 import static cf.playhi.freezeyou.export.FUFMode.MODE_LEGACY_AUTO;
 import static cf.playhi.freezeyou.export.FUFMode.MODE_ROOT_DISABLE_ENABLE;
 import static cf.playhi.freezeyou.export.FUFMode.MODE_ROOT_HIDE_UNHIDE;
+import static cf.playhi.freezeyou.export.FUFMode.MODE_SHIZUKU_ENABLE_DISABLE_USER;
 import static cf.playhi.freezeyou.export.FUFMode.MODE_SYSTEM_APP_ENABLE_DISABLE;
 import static cf.playhi.freezeyou.export.FUFMode.MODE_SYSTEM_APP_ENABLE_DISABLE_UNTIL_USED;
 import static cf.playhi.freezeyou.export.FUFMode.MODE_SYSTEM_APP_ENABLE_DISABLE_USER;
@@ -26,6 +27,7 @@ import static cf.playhi.freezeyou.fuf.FUFSinglePackage.API_FREEZEYOU_LEGACY_AUTO
 import static cf.playhi.freezeyou.fuf.FUFSinglePackage.API_FREEZEYOU_MROOT_DPM;
 import static cf.playhi.freezeyou.fuf.FUFSinglePackage.API_FREEZEYOU_ROOT_DISABLE_ENABLE;
 import static cf.playhi.freezeyou.fuf.FUFSinglePackage.API_FREEZEYOU_ROOT_UNHIDE_HIDE;
+import static cf.playhi.freezeyou.fuf.FUFSinglePackage.API_FREEZEYOU_SHIZUKU_ENABLE_DISABLE_USER;
 import static cf.playhi.freezeyou.fuf.FUFSinglePackage.API_FREEZEYOU_SYSTEM_APP_ENABLE_DISABLE;
 import static cf.playhi.freezeyou.fuf.FUFSinglePackage.API_FREEZEYOU_SYSTEM_APP_ENABLE_DISABLE_UNTIL_USED;
 import static cf.playhi.freezeyou.fuf.FUFSinglePackage.API_FREEZEYOU_SYSTEM_APP_ENABLE_DISABLE_USER;
@@ -107,6 +109,9 @@ public class Query extends ContentProvider {
                             break;
                         case API_FREEZEYOU_SYSTEM_APP_ENABLE_DISABLE:
                             bundle.putString("currentMode", MODE_SYSTEM_APP_ENABLE_DISABLE);
+                            break;
+                        case API_FREEZEYOU_SHIZUKU_ENABLE_DISABLE_USER:
+                            bundle.putString("currentMode", MODE_SHIZUKU_ENABLE_DISABLE_USER);
                             break;
                         default:
                             bundle.putString("currentMode", MODE_UNKNOWN);

@@ -16,6 +16,7 @@ import static cf.playhi.freezeyou.fuf.FUFSinglePackage.API_FREEZEYOU_LEGACY_AUTO
 import static cf.playhi.freezeyou.fuf.FUFSinglePackage.API_FREEZEYOU_MROOT_DPM;
 import static cf.playhi.freezeyou.fuf.FUFSinglePackage.API_FREEZEYOU_ROOT_DISABLE_ENABLE;
 import static cf.playhi.freezeyou.fuf.FUFSinglePackage.API_FREEZEYOU_ROOT_UNHIDE_HIDE;
+import static cf.playhi.freezeyou.fuf.FUFSinglePackage.API_FREEZEYOU_SHIZUKU_ENABLE_DISABLE_USER;
 import static cf.playhi.freezeyou.fuf.FUFSinglePackage.API_FREEZEYOU_SYSTEM_APP_ENABLE_DISABLE;
 import static cf.playhi.freezeyou.fuf.FUFSinglePackage.API_FREEZEYOU_SYSTEM_APP_ENABLE_DISABLE_UNTIL_USED;
 import static cf.playhi.freezeyou.fuf.FUFSinglePackage.API_FREEZEYOU_SYSTEM_APP_ENABLE_DISABLE_USER;
@@ -30,6 +31,8 @@ import static cf.playhi.freezeyou.utils.FUFUtils.isSystemApp;
 import static cf.playhi.freezeyou.utils.ServiceUtils.startService;
 import static cf.playhi.freezeyou.utils.Support.checkLanguage;
 import static cf.playhi.freezeyou.utils.ToastUtils.showToast;
+
+import cf.playhi.freezeyou.utils.ShizukuUtils;
 
 final class SettingsUtils {
     static void syncAndCheckSharedPreference(Context context, Activity activity,
@@ -169,6 +172,15 @@ final class SettingsUtils {
                     case API_FREEZEYOU_SYSTEM_APP_ENABLE_DISABLE:
                         if (!(isSystemApp(context))) {
                             showToast(context, R.string.insufficientPermission);
+                        }
+                        break;
+                    case API_FREEZEYOU_SHIZUKU_ENABLE_DISABLE_USER:
+                        if (!ShizukuUtils.isShizukuInstalled(context)) {
+                            showToast(context, "Shizuku not installed");
+                            if (!ShizukuUtils.supportsShizuku())
+                                showToast(context, "Android version too old for Shizuku");
+                        } else {
+                            ShizukuUtils.requestPermission();
                         }
                         break;
                     default:

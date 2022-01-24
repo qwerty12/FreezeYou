@@ -12,6 +12,7 @@ import cf.playhi.freezeyou.utils.Support.checkLanguage
 import com.getkeepsafe.relinker.ReLinker
 import com.tencent.mmkv.MMKV
 import net.grandcentrix.tray.AppPreferences
+import rikka.shizuku.ShizukuProvider
 import java.io.File
 import java.io.IOException
 
@@ -213,6 +214,10 @@ class MainApplication : Application() {
 
     companion object {
         private var mCurrentPackage = " "
+
+        init {
+            ShizukuProvider.enableMultiProcessSupport(true)
+        }
 
         @JvmStatic
         var waitingForLeavingToInstallApplicationIntent: Intent? = null

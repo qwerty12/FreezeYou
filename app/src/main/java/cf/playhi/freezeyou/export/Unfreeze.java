@@ -20,6 +20,7 @@ import static cf.playhi.freezeyou.export.FUFMode.MODE_MROOT;
 import static cf.playhi.freezeyou.export.FUFMode.MODE_ROOT;
 import static cf.playhi.freezeyou.export.FUFMode.MODE_ROOT_DISABLE_ENABLE;
 import static cf.playhi.freezeyou.export.FUFMode.MODE_ROOT_HIDE_UNHIDE;
+import static cf.playhi.freezeyou.export.FUFMode.MODE_SHIZUKU_ENABLE_DISABLE_USER;
 import static cf.playhi.freezeyou.export.FUFMode.MODE_SYSTEM_APP_ENABLE_DISABLE;
 import static cf.playhi.freezeyou.export.FUFMode.MODE_SYSTEM_APP_ENABLE_DISABLE_UNTIL_USED;
 import static cf.playhi.freezeyou.export.FUFMode.MODE_SYSTEM_APP_ENABLE_DISABLE_USER;
@@ -183,6 +184,15 @@ public class Unfreeze extends ContentProvider {
                                 doApiV2Action(
                                         context, pkgName,
                                         FUFSinglePackage.API_FREEZEYOU_SYSTEM_APP_ENABLE_DISABLE_UNTIL_USED
+                                )
+                        );
+                        return bundle;
+                    case MODE_SHIZUKU_ENABLE_DISABLE_USER:
+                        bundle.putInt(
+                                "result",
+                                doApiV2Action(
+                                        context, pkgName,
+                                        FUFSinglePackage.API_FREEZEYOU_SHIZUKU_ENABLE_DISABLE_USER
                                 )
                         );
                         return bundle;

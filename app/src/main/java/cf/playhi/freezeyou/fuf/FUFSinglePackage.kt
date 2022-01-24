@@ -3,12 +3,14 @@ package cf.playhi.freezeyou.fuf
 import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
+import android.os.Process
 import cf.playhi.freezeyou.DeviceAdminReceiver.getComponentName
 import cf.playhi.freezeyou.utils.DevicePolicyManagerUtils.getDevicePolicyManager
 import cf.playhi.freezeyou.utils.DevicePolicyManagerUtils.isDeviceOwner
 import cf.playhi.freezeyou.utils.FUFUtils.checkMRootFrozen
 import cf.playhi.freezeyou.utils.FUFUtils.isSystemApp
 import cf.playhi.freezeyou.utils.ProcessUtils.fAURoot
+import cf.playhi.freezeyou.utils.ShizukuUtils
 
 open class FUFSinglePackage(
     private val mContext: Context,
@@ -36,6 +38,8 @@ open class FUFSinglePackage(
                 pureExecuteAPISystemAppDisabledUntilUsedAction()
             API_FREEZEYOU_SYSTEM_APP_ENABLE_DISABLE_USER ->
                 pureExecuteAPISystemAppDisabledUserAction()
+            API_FREEZEYOU_SHIZUKU_ENABLE_DISABLE_USER ->
+                pureExecuteAPIShizukuAppDisabledUserAction()
             else ->
                 ERROR_NO_SUCH_API_MODE
         }
@@ -163,6 +167,26 @@ open class FUFSinglePackage(
         return returnValue
     }
 
+    private fun pureExecuteAPIShizukuAppDisabledUserAction(): Int {
+
+        var returnValue = ERROR_OTHER
+        val freeze = mActionMode == ACTION_MODE_FREEZE
+        if ("cf.playhi.freezeyou" != mSinglePackageName) {
+            ShizukuUtils.getPackageManager().setApplicationEnabledSetting(
+                mSinglePackageName,
+                if (freeze)
+                    PackageManager.COMPONENT_ENABLED_STATE_DISABLED_USER
+                else
+                    PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+                0,
+                mContext.userId,
+                "shell:" + Process.myUid() /*"com.android.shell"*/
+            )
+            returnValue = ERROR_NO_ERROR_CAUGHT_UNKNOWN_RESULT
+        }
+        return returnValue
+    }
+
     private fun pureExecuteAPISystemAppDisabledAction(): Int {
 
         if (!isSystemApp(mContext)) return ERROR_NOT_SYSTEM_APP
@@ -235,5 +259,7 @@ open class FUFSinglePackage(
          * 使用 FreezeYou 的 System App (DISABLE) 模式
          */
         const val API_FREEZEYOU_SYSTEM_APP_ENABLE_DISABLE = 6
+
+        const val API_FREEZEYOU_SHIZUKU_ENABLE_DISABLE_USER = 7
     }
 }

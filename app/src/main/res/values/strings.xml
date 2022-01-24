@@ -532,6 +532,7 @@
     </string-array>
     <string-array name="selectFUFModeSelection">
         <item>No-root (DPM Mode)</item>
+        <item>Shizuku (Disable_User Mode)</item>
         <item>ROOT (Hide Mode)</item>
         <item>ROOT (Disable Mode)</item>
         <item>Legacy (Auto DPM or Disable Mode)</item>
@@ -541,6 +542,7 @@
     </string-array>
     <string-array name="selectFUFModeSelectionValues" translatable="false">
         <item>1</item>
+        <item>7</item>
         <item>3</item>
         <item>2</item>
         <item>0</item>

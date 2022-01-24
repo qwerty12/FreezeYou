@@ -41,5 +41,8 @@ public final class FUFMode {
     public static final String MODE_SYSTEM_APP_ENABLE_DISABLE =
             "MODE_SYSTEM_APP_ENABLE_DISABLE";
 
+    public static final String MODE_SHIZUKU_ENABLE_DISABLE_USER =
+            "MODE_SHIZUKU_ENABLE_DISABLE_USER";
+
     public static final String MODE_UNKNOWN = "MODE_UNKNOWN";
 }
