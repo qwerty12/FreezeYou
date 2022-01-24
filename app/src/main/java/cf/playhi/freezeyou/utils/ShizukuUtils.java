@@ -11,8 +11,6 @@ import rikka.shizuku.ShizukuBinderWrapper;
 import rikka.shizuku.SystemServiceHelper;
 
 public final class ShizukuUtils {
-    public static final int requestCode = 93270;
-
     public static boolean supportsShizuku() {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.M;
     }
@@ -25,9 +23,9 @@ public final class ShizukuUtils {
         }
     }
 
-    public static void requestPermission() {
+    public static void requestPermission() throws IllegalStateException {
         if (Shizuku.checkSelfPermission() != PackageManager.PERMISSION_GRANTED) {
-            Shizuku.requestPermission(requestCode);
+            Shizuku.requestPermission(93270);
         }
     }
 

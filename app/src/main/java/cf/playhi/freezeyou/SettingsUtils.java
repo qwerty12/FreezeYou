@@ -180,7 +180,11 @@ final class SettingsUtils {
                             if (!ShizukuUtils.supportsShizuku())
                                 showToast(context, "Android version too old for Shizuku");
                         } else {
-                            ShizukuUtils.requestPermission();
+                            try {
+                                ShizukuUtils.requestPermission();
+                            } catch (IllegalStateException e) {
+                                showToast(context, "Shizuku not running");
+                            }
                         }
                         break;
                     default:

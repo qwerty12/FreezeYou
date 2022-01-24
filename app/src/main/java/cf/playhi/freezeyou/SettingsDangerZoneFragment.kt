@@ -15,6 +15,7 @@ import cf.playhi.freezeyou.utils.DevicePolicyManagerUtils.isDeviceOwner
 import cf.playhi.freezeyou.utils.ShizukuUtils
 import cf.playhi.freezeyou.utils.ToastUtils.showToast
 import rikka.shizuku.Shizuku
+import java.lang.IllegalStateException
 import java.util.concurrent.TimeUnit
 
 
@@ -72,7 +73,12 @@ class SettingsDangerZoneFragment : PreferenceFragmentCompat() {
                 return@setOnPreferenceClickListener false
             }
 
-            ShizukuUtils.requestPermission();
+            try {
+                ShizukuUtils.requestPermission()
+            } catch (e: IllegalStateException){
+                showToast(requireActivity(), "Shizuku not running")
+                return@setOnPreferenceClickListener false
+            }
 
             buildAlertDialog(
                     requireActivity(),

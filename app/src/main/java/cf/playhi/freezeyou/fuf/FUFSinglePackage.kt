@@ -11,6 +11,7 @@ import cf.playhi.freezeyou.utils.FUFUtils.checkMRootFrozen
 import cf.playhi.freezeyou.utils.FUFUtils.isSystemApp
 import cf.playhi.freezeyou.utils.ProcessUtils.fAURoot
 import cf.playhi.freezeyou.utils.ShizukuUtils
+import rikka.shizuku.ShizukuProvider
 
 open class FUFSinglePackage(
     private val mContext: Context,
@@ -172,17 +173,22 @@ open class FUFSinglePackage(
         var returnValue = ERROR_OTHER
         val freeze = mActionMode == ACTION_MODE_FREEZE
         if ("cf.playhi.freezeyou" != mSinglePackageName) {
-            ShizukuUtils.getPackageManager().setApplicationEnabledSetting(
-                mSinglePackageName,
-                if (freeze)
-                    PackageManager.COMPONENT_ENABLED_STATE_DISABLED_USER
-                else
-                    PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
-                0,
-                mContext.userId,
-                "shell:" + Process.myUid() /*"com.android.shell"*/
-            )
             returnValue = ERROR_NO_ERROR_CAUGHT_UNKNOWN_RESULT
+            try {
+                ShizukuUtils.getPackageManager().setApplicationEnabledSetting(
+                    mSinglePackageName,
+                    if (freeze)
+                        PackageManager.COMPONENT_ENABLED_STATE_DISABLED_USER
+                    else
+                        PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+                    0,
+                    mContext.userId,
+                    "shell:" + Process.myUid() /*"com.android.shell"*/
+                )
+            } catch (e: IllegalStateException) {
+                ShizukuProvider.requestBinderForNonProviderProcess(mContext)
+                returnValue = ERROR_DPM_EXECUTE_FAILED_FROM_SYSTEM
+            }
         }
         return returnValue
     }

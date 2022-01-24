@@ -17,6 +17,7 @@ import rikka.shizuku.ShizukuProvider;
 import static cf.playhi.freezeyou.fuf.FUFSinglePackage.API_FREEZEYOU_LEGACY_AUTO;
 import static cf.playhi.freezeyou.fuf.FUFSinglePackage.API_FREEZEYOU_MROOT_DPM;
 import static cf.playhi.freezeyou.fuf.FUFSinglePackage.API_FREEZEYOU_ROOT_DISABLE_ENABLE;
+import static cf.playhi.freezeyou.fuf.FUFSinglePackage.API_FREEZEYOU_SHIZUKU_ENABLE_DISABLE_USER;
 import static cf.playhi.freezeyou.utils.DevicePolicyManagerUtils.isDeviceOwner;
 import static cf.playhi.freezeyou.utils.FUFUtils.checkMRootFrozen;
 import static cf.playhi.freezeyou.utils.FUFUtils.oneKeyAction;
@@ -101,7 +102,9 @@ public class FUFService extends FreezeYouBaseService {
     @Override
     public void onCreate() {
         super.onCreate();
-        ShizukuProvider.requestBinderForNonProviderProcess(this);
+        if (new AppPreferences(this).getInt("selectFUFMode", 0) == API_FREEZEYOU_SHIZUKU_ENABLE_DISABLE_USER) {
+            ShizukuProvider.requestBinderForNonProviderProcess(this);
+        }
         if (Build.VERSION.SDK_INT >= 26) {
             Notification.Builder mBuilder = new Notification.Builder(this);
             mBuilder.setSmallIcon(R.drawable.ic_notification);
