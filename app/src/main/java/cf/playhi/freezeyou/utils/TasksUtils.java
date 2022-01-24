@@ -541,6 +541,7 @@ public final class TasksUtils {
                                             .putExtra("OnScreenOn", true));
                             break;
                         case "onScreenOff":
+                        case "onScreenOffIfUnlocked":
                             startService(context,
                                     new Intent(context, TriggerTasksService.class)
                                             .putExtra("OnScreenOff", true));
