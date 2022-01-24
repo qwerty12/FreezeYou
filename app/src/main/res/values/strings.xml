@@ -15,12 +15,14 @@
     <string name="removeFromOneKeyUFList">Remove from the Onekey Unfreeze list</string>
     <string name="removeFromFreezeOnceQuit">Remove from the Freeze Once Quit list</string>
     <string name="removeFromOngoingNotificationCheck">Remove from the Ongoing Notification Check list</string>
+    <string name="removeFromIgnoreNotificationList">Remove from the Ignore Notification list</string>
     <string name="removed">Removed</string>
     <string name="removeFailed">Failed to remove</string>
     <string name="addToOneKeyList">Add to the Onekey Freeze list</string>
     <string name="addToOneKeyUFList">Add to the Onekey Unfreeze list</string>
     <string name="addToFreezeOnceQuit">Add to the Freeze Once Quit list</string>
     <string name="addToOngoingNotificationCheck">Add to the Ongoing Notification Check list</string>
+    <string name="addToIgnoreNotificationList">Add to the Ignore Notification list</string>
     <string name="addFailed">Failed to add</string>
     <string name="caution">CAUTION</string>
     <string name="cautionContent">Attention! \nDo not freeze the application which is very important to the system, that may cause the system to crash!</string>
@@ -384,6 +386,7 @@
     <string name="sAutoFreezeApplicationList" translatable="false">New_AutoFreezeApplicationList</string>
     <string name="sOneKeyUFApplicationList" translatable="false">New_OneKeyUFApplicationList</string>
     <string name="sOngoingNotificationCheckList" translatable="false">New_OngoingNotificationCheckList</string>
+    <string name="sIgnoreNotificationList" translatable="false">New_IgnoreNotificationList</string>
     <string-array name="launchModeSelection">
         <item>Show All</item>
         <item>Frozen only</item>

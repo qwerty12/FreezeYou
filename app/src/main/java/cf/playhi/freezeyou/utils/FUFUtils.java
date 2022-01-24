@@ -359,6 +359,9 @@ public final class FUFUtils {
     @TargetApi(21)
     private static boolean isAppStillNotifying(Context context, String pkgName) {
         if (pkgName != null) {
+            if (OneKeyListUtils.existsInOneKeyList(context, context.getString(R.string.sIgnoreNotificationList), pkgName)) {
+                return false;
+            }
             StatusBarNotification[] statusBarNotifications = MyNotificationListenerService.getStatusBarNotifications();
             if (statusBarNotifications != null) {
                 context = context.getApplicationContext();
