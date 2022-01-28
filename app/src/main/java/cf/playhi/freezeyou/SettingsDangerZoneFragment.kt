@@ -26,8 +26,12 @@ class SettingsDangerZoneFragment : PreferenceFragmentCompat() {
         setPreferencesFromResource(R.xml.spr_danger_zone, rootKey)
 
         if (isDeviceOwner(activity)) {
-            preferenceScreen?.removePreference(findPreference("clearAllUserData"))
-            preferenceScreen?.removePreference(findPreference("makeDeviceOwner"))
+            findPreference<Preference?>("clearAllUserData")?.let {
+                preferenceScreen?.removePreference(it)
+            }
+            findPreference<Preference?>("makeDeviceOwner")?.let {
+                preferenceScreen?.removePreference(it)
+            }
         }
 
         findPreference<Preference?>("clearAllUserData")?.setOnPreferenceClickListener {
