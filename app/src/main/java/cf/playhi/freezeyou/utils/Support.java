@@ -20,6 +20,7 @@ import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.util.Base64;
 import android.util.DisplayMetrics;
+import android.view.MenuItem;
 import android.view.SubMenu;
 import android.view.View;
 import android.widget.EditText;
