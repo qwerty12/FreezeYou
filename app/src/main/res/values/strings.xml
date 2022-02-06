@@ -389,6 +389,7 @@
     <string name="sOneKeyUFApplicationList" translatable="false">New_OneKeyUFApplicationList</string>
     <string name="sOngoingNotificationCheckList" translatable="false">New_OngoingNotificationCheckList</string>
     <string name="sIgnoreNotificationList" translatable="false">New_IgnoreNotificationList</string>
+    <string name="gotoStore">Go to the store</string>
     <string-array name="launchModeSelection">
         <item>Show All</item>
         <item>Frozen only</item>
@@ -517,23 +518,21 @@
     </string-array>
     <string-array name="displayLanguageOptionsSelection" translatable="false">
         <item>Default</item>
+        <item>English</item>
+        <item>English (US)</item>
+        <item>Русский (Россия)</item>
+        <item>Українська(Україна)</item>
         <item>中文（中国大陆）</item>
         <item>中文（中國臺灣）</item>
-        <item>English (US)</item>
-        <item>Русский</item>
-        <item>Русский (Россия)</item>
-        <item>Українська</item>
-        <item>Українська(Україна)</item>
     </string-array>
     <string-array name="displayLanguageOptionsSelectionValues" translatable="false">
         <item>Default</item>
+        <item>en</item>
+        <item>en-US</item>
+        <item>ru-RU</item>
+        <item>uk-UA</item>
         <item>zh-CN</item>
         <item>zh-TW</item>
-        <item>en-US</item>
-        <item>ru</item>
-        <item>ru-RU</item>
-        <item>uk</item>
-        <item>uk-UA</item>
     </string-array>
     <string-array name="selectFUFModeSelection">
         <item>No-root (DPM Mode)</item>
