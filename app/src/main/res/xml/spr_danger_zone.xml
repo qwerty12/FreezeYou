@@ -20,15 +20,20 @@
     </Preference>
     <Preference
         app:iconSpaceReserved="false"
-        app:key="makeDeviceOwner"
+        app:key="selfRevokeProfileOwner"
         app:singleLineTitle="false"
-        app:summary="Shizuku must be running. Accounts must be removed first."
-        app:title="Make FreezeYou! the Device Owner ">
-    </Preference>
+        app:summary="@string/selfRevokeProfileOwnerSummary"
+        app:title="@string/selfRevokeProfileOwner" />
     <Preference
         app:iconSpaceReserved="false"
         app:key="uninstall"
         app:singleLineTitle="false"
         app:title="@string/uninstall" />
+    <Preference
+        app:iconSpaceReserved="false"
+        app:key="makeDeviceOwner"
+        app:singleLineTitle="false"
+        app:summary="Shizuku must be running. Accounts must be removed first."
+        app:title="Make FreezeYou! the Device Owner" />
 
 </PreferenceScreen>
